@@ -140,7 +140,7 @@ const generateRecipesPrompt = ai.definePrompt({
             estimatedTime: z
               .number()
               .int()
-              .positive()
+              .min(1)
               .describe("Estimated elaboration time."),
           })
         )
