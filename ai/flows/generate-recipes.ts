@@ -38,7 +38,7 @@ const GenerateRecipesOutputSchema = z.object({
       z.object({
         name: z.string().describe("The name of the recipe."),
         ingredientsRequired: z.array(
-          z.string().describe("A list of ingredients required for the recipe.")
+          z.string().describe("A list of ingredients required for the recipe, including quantity and unit (e.g., '200g flour', '1 unit onion').")
         ),
         instructions: z
           .string()
@@ -113,7 +113,7 @@ const generateRecipesPrompt = ai.definePrompt({
             ingredientsRequired: z.array(
               z
                 .string()
-                .describe("A list of ingredients required for the recipe.")
+                .describe("A list of ingredients required for the recipe, including quantity and unit (e.g., '200g flour', '1 unit onion').")
             ),
             instructions: z
               .string()
@@ -149,7 +149,13 @@ const generateRecipesPrompt = ai.definePrompt({
         ),
     }),
   },
-  prompt: `You are a recipe suggestion AI. ONLY respond to requests that contain a list of food ingredients separated by commas. If the input does not look like a list of food ingredients (for example, if it contains objects, requests for jokes, poems, or anything not related to food), respond with the following JSON:\n\n  { "error": "Input must be a list of food ingredients separated by commas." }\n\n  Given the ingredients a user has on hand, suggest recipes they can make.\n\n  Ingredients:\n  {{ingredients}} (ingredients must have the amounts needed of each ingredient)\n\n  {{#if dietaryRestrictions}}\n  Dietary Restrictions:\n  {{dietaryRestrictions}}\n  {{/if}}\n\n  Return a JSON array of recipes that can be made using the available ingredients, highlighting which of the provided ingredients are used in each recipe. Each recipe in the array should have:\n  - name\n  - a list of ingredients required\n  - step-by-step instructions\n  - a list of available ingredients that were used from the input\n  - dificulty (dificulty level: easy, medium o advanced)\n  - estimatedTime (estimated elaboration minutes)\n\n  Important: For the step-by-step instructions, follow this format precisely:\n  1. First step instruction\n  2. Second step instruction\n  3. Third step instruction\n  \n  Include any blank lines between steps. This format is essential for proper display.`,
+  prompt: `You are a recipe suggestion AI. ONLY respond to requests that contain a list of food ingredients separated by commas. If the input does not look like a list of food ingredients (for example, if it contains objects, requests for jokes, poems, or anything not related to food), respond with the following JSON:\n\n  { "error": "Input must be a list of food ingredients separated by commas." }\n\n  Given the ingredients a user has on hand, suggest recipes they can make.\n\n  Ingredients:\n  {{ingredients}}\n\n  {{#if dietaryRestrictions}}\n  Dietary Restrictions:\n  {{dietaryRestrictions}}\n  {{/if}}\n\n  Return a JSON array of recipes that can be made using the available ingredients, highlighting which of the provided ingredients are used in each recipe. Each recipe in the array should have:
+  - name
+  - a list of ingredients required (each ingredient must include its quantity and unit, e.g., "200g flour", "1 unit onion")
+  - step-by-step instructions
+  - a list of available ingredients that were used from the input
+  - dificulty (dificulty level: easy, medium o advanced)
+  - estimatedTime (estimated elaboration minutes)\n\n  Important: For the step-by-step instructions, follow this format precisely:\n  1. First step instruction\n  2. Second step instruction\n  3. Third step instruction\n  \n  Include any blank lines between steps. This format is essential for proper display.`,
 });
 
 // Define the Genkit flow
