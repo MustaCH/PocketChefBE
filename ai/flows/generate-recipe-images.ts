@@ -34,8 +34,7 @@ export async function generateRecipeImages(
   return generateRecipeImagesFlow(input);
 }
 
-
-ai.defineHelper('encodeURIComponent', (str: string) => encodeURIComponent(str));
+ai.defineHelper("encodeURIComponent", (str: string) => encodeURIComponent(str));
 
 const prompt = ai.definePrompt({
   name: "generateRecipeImagesPrompt",
@@ -55,7 +54,9 @@ const prompt = ai.definePrompt({
 
 Nombre de la receta: {{{recipeName}}}
 
-URL de la imagen generada: https://image.pollinations.ai/prompt/{{{encodeURIComponent recipeName}}}`, 
+URL de la imagen generada: https://image.pollinations.ai/prompt/{{{encodeURIComponent recipeName}}}
+
+En caso de que uno de los ingredientes sea el nombre de un animal, asegurate que no se cree una imagen con un animal.`,
 });
 
 const generateRecipeImagesFlow = ai.defineFlow<
