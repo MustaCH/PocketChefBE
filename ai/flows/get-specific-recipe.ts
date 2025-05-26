@@ -143,6 +143,3 @@ const getSpecificRecipeFlow = ai.defineFlow<
     }
   }
 );
-
-// The runFlow import is not typically used for direct execution within the flow file itself in the pattern of generate-recipes.ts
-// If you need to test, you'd import `getSpecificRecipe` in another file (e.g., index.ts or a test file) and run it.
