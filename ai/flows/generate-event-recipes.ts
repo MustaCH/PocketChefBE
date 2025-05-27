@@ -63,7 +63,7 @@ const EventRecipeSchema = z.object({
   servings: z
     .number()
     .int()
-    .positive()
+    .min(1)
     .optional()
     .describe(
       "Number of servings the recipe makes, ideally adjusted for the number of guests."
